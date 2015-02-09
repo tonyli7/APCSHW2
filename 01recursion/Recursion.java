@@ -1,17 +1,14 @@
 public class Recursion implements hw1{
-    /*
-    public static void main(String[]args){
-	System.out.println(fact(5));
-	System.out.println(fib(5));
-	System.out.println(sqrt(4));
-    }
-    */
+    
 
     public String name(){
 	return "Li,Tony";
     }
 
     public int fact(int n){
+	if (n<0){
+	    throw new IllegalArgumentException("n must be non-negative");	
+	}
 	if (n==0){
 	    return 1;
 	}
@@ -19,6 +16,9 @@ public class Recursion implements hw1{
     }
 
     public int fib(int n){
+	if (n<0){
+	    throw new IllegalArgumentException("n must be non-negative");	
+	}
 	if (n==0){
 	    return 0;
 	}
@@ -29,6 +29,9 @@ public class Recursion implements hw1{
     }
 
     public double sqrt(double n){
+	if (n<0){
+	    throw new IllegalArgumentException("n must be non-negative");	
+	}
 	double guess=1;
 	if ((((int)((guess*guess)*1000000))/1000000.0)==n){
 	    return guess;
