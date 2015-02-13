@@ -12,6 +12,7 @@ public class KnightsTour{
     //instance variable
     private int[][]board;
     private int size;
+    private boolean solution;
 
     //terminal specific character to move the cursor
     private String go(int x,int y){
@@ -35,7 +36,10 @@ public class KnightsTour{
 	    ans+="\n";
 	}
 	//build your knights tour here...
-	return hide + clear + go(0,0) + ans + "\n" + show;
+	if (solution){
+	    return hide + clear + go(0,0) + ans + "\n" + show;
+	}
+    	return "no solution";
     }
 
    
@@ -62,19 +66,20 @@ public class KnightsTour{
 	if (isFull()){
 	    return true;
 	}
-	return solve(startx,starty,0);
+	return solve(startx,starty,1);
     }
 
 
 		
     public boolean solve(int x,int y,int currentMoveNumber){
-	System.out.println(this);
-	wait(20);
+	//	System.out.println(this);
+	//	wait(20);
 
 	if (isFull()){
+	    solution=true;
 	    return true;
 	}
-	if (((x<size) && (x>-1)) && ((y<size) && (y>-1)) && (board[y][x]==0)){
+	if ((((x<size) && (x>-1)) && ((y<size) && (y>-1))) && (board[y][x]==0)){
 	    board[y][x]=currentMoveNumber;
 	    if (solve(x+1,y-2,currentMoveNumber+1)||
 		solve(x-1,y-2,currentMoveNumber+1)||
@@ -86,8 +91,9 @@ public class KnightsTour{
 		solve(x-2,y-1,currentMoveNumber+1)){
 		return true;
 	    }
-	    //  board[y][x]=currentMoveNumber-1;
+	    board[y][x]=0;
 	}
+	
 	return false;
     }
 
