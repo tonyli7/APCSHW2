@@ -6,9 +6,8 @@ public class NQueens{
     final static String show =  "\033[?25h";
 
     //instance variable
-    private int[][]board;
-    private int[][]qPos;
-    private int[]badRows;
+    private char[][]board;
+    private int[]qPos;
     private int size;
     private boolean solution;
 
@@ -29,33 +28,28 @@ public class NQueens{
 	String ans = "\n";
 	for (int i=0;i<size;i++){
 	    for (int j=0;j<size;j++){
-		ans+=board[i][j]+" ";
+		ans=""+ans+board[i][j]+" ";
 	    }
-	    ans+="\n";
+	    ans=ans+"\n";
 	}
-	
-	//	if (solution){
-	return hide + clear + go(0,0) + ans + "\n" + show;
-	    //	}
-	    //	return "no solution";
+
+	if (solution){
+	    return hide + clear + go(0,0) + ans + "\n" + show;
+	}
+	return "no solution";
     }
 
     public NQueens(int size){
 	this.size=size;
-	board=new int[size][size];
-	qPos=new int [size][2];
-	badRows=new int[size];
+	board=new char[size][size];
+	qPos=new int [size];
 	for (int i=0;i<size;i++){
 	    for (int j=0;j<size;j++){
-		board[i][j]=0;
+		board[i][j]='_';
 	    }
 	}
 	for (int i=0;i<size;i++){
-	    qPos[i][0]=-5;
-	    qPos[i][1]=-100;
-	}
-	for (int i=0;i<size;i++){
-	    badRows[i]=-5;
+	    qPos[i]=-size-size;
 	}
  
     }
@@ -72,90 +66,42 @@ public class NQueens{
 	    return false;
 	}
 	return solve(startx,0);
-
     }
 
     public boolean solve(int startx, int starty){
-	System.out.println(this);
-	wait(20);
+
 
 	if (startx==size){
 	    solution=true;
 	    return true;
 	}
-	for (int i=0;i<size;i++){
-	    if ((startx<size) && (startx>-1) &&//if within x range
-		(starty<size) && (starty>-1) &&//if within y range 
-		(board[starty][startx]==0) &&//if empty
-		(badRows[starty]!=starty) &&//if not in same row
-		(safeD(startx,starty))){//if not in diagonal with other queens
-		
-		board[i][startx]=8;
-		qPos[i][0]=startx;
-		qPos[i][1]=starty;
-		badRows[i]=starty;
-		if(solve(startx+1,starty)){
+	if ((startx<size) && (startx>-1) &&//if within x range
+	    (starty<size) && (starty>-1) &&//if within y range 
+	    (board[starty][startx]=='_') &&//if empty
+	    (noThreat(startx,starty))){//if not threatened
+
+	    board[starty][startx]='Q';
+	    qPos[startx]=starty;
+	    for (int i=0;i<size;i++){
+		if(solve(startx+1,i)){
 		    return true;
+		  
 		}
-		solve(startx+1,starty);
+	
+	
+	    }
+	    board[starty][startx]='_';
+	    qPos[startx]=-size-size;
+	    if (solve(startx,starty+1)){
+		return true;
 	    }
 	}
 	return false;
     }
-    /*
-    public void fill(int x, int y){
+   
+    public boolean noThreat(int x, int y){
 	for (int i=0;i<size;i++){
-	    if (board[i][x]!=8){
-		board[i][x]=1;
-	    }
-	}
-	for (int j=0;j<size;j++){
-	    if (board[y][j]!=8){
-		board[y][j]=1;
-	    }
-	}
-	int n=x+1;
-	int m=y+1;
-	while ((n<size) && (m<size)){
-	    board[m][n]=1;
-	    n++;
-	    m++;
-	}
-	int h=x+1;
-	int k=y-1;
-	while ((h<size) && (k>0)){
-	    board[k][h]=1;
-	    h++;
-	    k--;
-	}
-    }
-
-    public void clear(int x, int y){
-	for (int i=0;i<size;i++){
-	    board[i][x]=0;
-	}
-	for (int j=0;j<size;j++){
-	    board[y][j]=0;   
-	}
-	int n=x+1;
-	int m=y+1;
-	while ((n<size) && (m<size)){
-	    board[m][n]=0;
-	    n++;
-	    m++;
-	}
-	int h=x+1;
-	int k=y-1;
-	while ((h<size) && (k>0)){
-	    board[k][h]=0;
-	    h++;
-	    k--;
-	}
-    }
-    */
-    public boolean safeD(int x, int y){
-	for (int i=0;i<size;i++){
-	    if (abs(qPos[i][0]-x) == abs(qPos[i][1]-y)){
+	    if ((abs(i-x) == abs(qPos[i]-y)) || (qPos[i]==y)){
 		return false;
 	    }
 	}
@@ -163,7 +109,14 @@ public class NQueens{
     }
 
     public int abs(int n){
-	return n*n/n;
+	if (n>=0){
+	    return n;
+	}
+	return n*-1;
+    }
+
+    public String name(){
+	return "li.tony";
     }
 
    
