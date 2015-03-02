@@ -39,7 +39,7 @@ public class KnightsTour{
 	if (solution){
 	    return hide + clear + go(0,0) + ans + "\n" + show;
 	}
-    	return "no solution";
+	return "no solution";
     }
 
    
