@@ -1,14 +1,19 @@
 import java.util.*;
 public class Sorts{
     public static void main(String[]args){
-	int[] ary=new int[4];
-	randomAry(20,ary);
-	System.out.println(toString(ary));
-	int[] ar=new int[4];
-	randomAry(20,ar);
-	System.out.println(toString(ar));
+
+	int[] ar=new int[100];
+	randomAry(20,ar);		      
+	//	System.out.println(toString(ar));
 	mergeSort(ar);
-	System.out.println(toString(ar));
+	if (sorted(ar)){
+	    //  System.out.println(toString(ar));
+	    System.out.println("yay");
+	}else{
+	    // System.out.println(toString(ar));
+	    System.out.println("why");
+	}
+	//	System.out.println(toString(ar));
 	//	System.out.println(toString(merge(ary,ar)));
 	
     }
@@ -25,11 +30,11 @@ public class Sorts{
 	int i2=0;
 	for (int i=0;i<a.length;i++){
 	    if (i%2==0){
-		p1[i1]=a[i];
-		i1++;
-	    }else{
 		p2[i2]=a[i];
 		i2++;
+	    }else{
+		p1[i1]=a[i];
+		i1++;
 	    }
 	}
 	if (!sorted(p1)){
@@ -62,7 +67,7 @@ public class Sorts{
 	    }
 	    ctr++;
 	}
-	if (asize>bsize){
+	if (bi==bsize){
 	    for (int i=ai;i<asize;i++){
 		merged[ctr]=a[i];
 		ctr++;
