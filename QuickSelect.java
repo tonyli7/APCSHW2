@@ -18,25 +18,29 @@ public class QuickSelect{
 
     public static void partition(int[]ary,int si, int ei){
 	Random rand=new Random();
-	int pivot=(rand.nextInt(0,ei-si+1)+si);
+	int pindex=rand.nextInt(ei-si+1)+si;
+	int pivot=ary[pindex];
+	System.out.println(pivot);
 	int gindex=ei;
 	int lindex=si;
-	for (int i=si;i<=ei;i++){
+	ary[pindex]=ary[gindex];
+	ary[gindex]=pivot;
+	int temp;
+	for (int i=si;i<ei;i++){
 	    if (ary[i]<pivot){
-		ary[lindex]=ary[i];
+		temp=ary[i];
+		ary[i]=ary[lindex];
+		ary[lindex]=temp;
 		lindex++;
-	    }else if(ary[i]>pivot){
-		ary[gindex]=ary[i];
-		gindex--;
 	    }
 	}
-       
-	ary[lindex]=pivot;
-	
+	temp=ary[lindex];
+	ary[lindex]=ary[gindex];
+	ary[gindex]=temp;
     }
 
     public static int QuickSelect(int kth,int[] a){
-	
+	return 1;
     }
 
     public static String toString(int[]a){
