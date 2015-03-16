@@ -5,30 +5,20 @@ public class MyLinkedList{
 
     public MyLinkedList(){
 	size=0;
-	head=new LNode();
-	tail=head;
+
     }
 
-    public MyLinkedList(int s){
-	size=s;
-	LNode current=head;
-	int i=0;
-	while (i<s){
-	    current=head.getNext();
-	}
-	tail=current;
-    }
+  
 
    
     public String toString(){
 	String list="[ ";
 	LNode current=head;
-	while (current.getNext()!=null){
-	    list+=current.getValue()+" , ";
+	while (current.getNext()!=tail){
+	    list+=""+current.getValue()+",";
 	    current=current.getNext();
-	    System.out.println(current.getValue());
 	}
-	return list.substring(0,size-1)+"]";
+	return list+current.getValue()+","+tail.getValue()+"]";
     }
 
     public boolean add(int value){
@@ -36,37 +26,66 @@ public class MyLinkedList{
 	    head=new LNode(value);
 	    tail=head;
 	}else{
-	    tail.setNext(new LNode(value));
-	    System.out.println(value);
+	    LNode tempTail=new LNode(value);
+	    tail.setNext(tempTail);
+	   
+	    tail=tail.getNext();
 	}
 	size++;
 	return true;
     }
 
-    public void add(int value, int index) throws IndexOutOfBoundsException{
+    public void add(int value, int index){
+	if (index<0){
+	    throw new IndexOutOfBoundsException();
+	}
 	if (size==0){
 	    head=new LNode(value);
 	    tail=head;
+	}if (index>=size){
+	    add(value);
+	}else if (index==0){  
+	    head=new LNode(value,head); 
 	}else{
 	    LNode current=head;
 	    int crntIndex=0;
-	    while (crntIndex!=index){
+	    while (crntIndex!=index-1){
 		current=current.getNext();
+		crntIndex++;
 	    }
-	    current.setNext(new LNode(value,current.getNext()));
+	    LNode temp=new LNode(value,current.getNext());
+	    current.setNext(temp);
+	    temp.setNext(current.getNext().getNext());
 	}
 			   
     }
 
     public int remove(int index){
-	LNode current=head;
-	int crntIndex=0;
-	while (crntIndex!=index-1){
-	    current=current.getNext();
-	    crntIndex++;
+	if (index==0){
+	    int ihead=head.getValue();
+	    head=head.getNext();
+	    return ihead;
+	}else if(index==size-1){
+	    LNode current=head;
+	    int crntIndex=0;
+	    while (crntIndex<index-1){
+		current=current.getNext();
+		crntIndex++;
+	    }
+	    int itail=current.getNext().getValue();
+	    tail=current;
+	    return itail;
+	}else{
+	    LNode current=head;
+	    int crntIndex=0;
+	    while (crntIndex!=index-1){
+		current=current.getNext();
+		crntIndex++;
+	    }
+	    int removed=current.getNext().getValue();
+	    current.setNext(new LNode(current.getNext().getNext().getValue(),current.getNext().getNext()));
+	    return removed;
 	}
-	current.setNext(new LNode(current.getValue(),current.getNext()));
-	return current.getNext().getValue();
     }
 
     public int get(int index){
@@ -74,6 +93,7 @@ public class MyLinkedList{
 	int crntIndex=0;
 	while (crntIndex!=index){
 	    current=current.getNext();
+	    crntIndex++;
 	}
 	return current.getValue();
     }
@@ -81,12 +101,12 @@ public class MyLinkedList{
     public int set(int index, int value){
 	LNode current=head;
 	int crntIndex=0;
-	while (crntIndex!=index-1){
+	while (crntIndex!=index){
 	    current=current.getNext();
 	    crntIndex++;
 	}
-	int replaced=current.getNext().getValue();
-	current.setNext(new LNode(value,current.getNext()));
+	int replaced=current.getValue();
+	current.setValue(value);
 	return replaced;
     }
 
