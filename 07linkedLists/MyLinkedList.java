@@ -1,19 +1,18 @@
 public class MyLinkedList{
-    private LNode head;
-    private LNode tail;
+    private LNode<T> head;
+    private LNode<T> tail;
     private int size;
 
     public MyLinkedList(){
 	size=0;
-
     }
 
-  
-
-   
+    public String name(){
+	return "tony.li";
+    }
     public String toString(){
 	String list="[ ";
-	LNode current=head;
+	LNode<T> current=head;
 	while (current.getNext()!=tail){
 	    list+=""+current.getValue()+",";
 	    current=current.getNext();
@@ -23,10 +22,10 @@ public class MyLinkedList{
 
     public boolean add(int value){
 	if (size==0){
-	    head=new LNode(value);
+	    head=new LNode<T>(value);
 	    tail=head;
 	}else{
-	    LNode tempTail=new LNode(value);
+	    LNode<T> tempTail=new LNode(value);
 	    tail.setNext(tempTail);
 	   
 	    tail=tail.getNext();
@@ -47,49 +46,49 @@ public class MyLinkedList{
 	}else if (index==0){  
 	    head=new LNode(value,head); 
 	}else{
-	    LNode current=head;
+	    LNode<T> current=head;
 	    int crntIndex=0;
 	    while (crntIndex!=index-1){
 		current=current.getNext();
 		crntIndex++;
 	    }
-	    LNode temp=new LNode(value,current.getNext());
+	    LNode<T> temp=new LNode(value,current.getNext());
 	    current.setNext(temp);
 	    temp.setNext(current.getNext().getNext());
 	}
 			   
     }
 
-    public int remove(int index){
+    public T remove(int index){
 	if (index==0){
-	    int ihead=head.getValue();
+	    T ihead=head.getValue();
 	    head=head.getNext();
 	    return ihead;
 	}else if(index==size-1){
-	    LNode current=head;
+	    LNode<T> current=head;
 	    int crntIndex=0;
 	    while (crntIndex<index-1){
 		current=current.getNext();
 		crntIndex++;
 	    }
-	    int itail=current.getNext().getValue();
+	    T itail=current.getNext().getValue();
 	    tail=current;
 	    return itail;
 	}else{
-	    LNode current=head;
+	    LNode<T> current=head;
 	    int crntIndex=0;
 	    while (crntIndex!=index-1){
 		current=current.getNext();
 		crntIndex++;
 	    }
-	    int removed=current.getNext().getValue();
+	    T removed=current.getNext().getValue();
 	    current.setNext(new LNode(current.getNext().getNext().getValue(),current.getNext().getNext()));
 	    return removed;
 	}
     }
 
-    public int get(int index){
-	LNode current=head;
+    public T get(int index){
+	LNode<T> current=head;
 	int crntIndex=0;
 	while (crntIndex!=index){
 	    current=current.getNext();
@@ -98,14 +97,14 @@ public class MyLinkedList{
 	return current.getValue();
     }
 
-    public int set(int index, int value){
-	LNode current=head;
+    public T set(int index, int value){
+	LNode<T> current=head;
 	int crntIndex=0;
 	while (crntIndex!=index){
 	    current=current.getNext();
 	    crntIndex++;
 	}
-	int replaced=current.getValue();
+	T replaced=current.getValue();
 	current.setValue(value);
 	return replaced;
     }
