@@ -78,4 +78,10 @@ public class Sorts{
 	str+="]";
 	return str;
     }
+
+    public String name(){
+	return "li.tony";
+    }
+
+    
 }
