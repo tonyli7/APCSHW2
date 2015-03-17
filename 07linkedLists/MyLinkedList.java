@@ -1,4 +1,4 @@
-public class MyLinkedList{
+public class MyLinkedList<T>{
     private LNode<T> head;
     private LNode<T> tail;
     private int size;
@@ -8,7 +8,7 @@ public class MyLinkedList{
     }
 
     public String name(){
-	return "tony.li";
+	return "li.tony";
     }
     public String toString(){
 	String list="[ ";
@@ -20,12 +20,12 @@ public class MyLinkedList{
 	return list+current.getValue()+","+tail.getValue()+"]";
     }
 
-    public boolean add(int value){
+    public boolean add(T value){
 	if (size==0){
 	    head=new LNode<T>(value);
 	    tail=head;
 	}else{
-	    LNode<T> tempTail=new LNode(value);
+	    LNode<T> tempTail=new LNode<T>(value);
 	    tail.setNext(tempTail);
 	   
 	    tail=tail.getNext();
@@ -34,17 +34,17 @@ public class MyLinkedList{
 	return true;
     }
 
-    public void add(int value, int index){
+    public void add(T value, int index){
 	if (index<0){
 	    throw new IndexOutOfBoundsException();
 	}
 	if (size==0){
-	    head=new LNode(value);
+	    head=new LNode<T>(value);
 	    tail=head;
 	}if (index>=size){
 	    add(value);
 	}else if (index==0){  
-	    head=new LNode(value,head); 
+	    head=new LNode<T>(value,head); 
 	}else{
 	    LNode<T> current=head;
 	    int crntIndex=0;
@@ -52,7 +52,7 @@ public class MyLinkedList{
 		current=current.getNext();
 		crntIndex++;
 	    }
-	    LNode<T> temp=new LNode(value,current.getNext());
+	    LNode<T> temp=new LNode<T>(value,current.getNext());
 	    current.setNext(temp);
 	    temp.setNext(current.getNext().getNext());
 	}
@@ -82,7 +82,7 @@ public class MyLinkedList{
 		crntIndex++;
 	    }
 	    T removed=current.getNext().getValue();
-	    current.setNext(new LNode(current.getNext().getNext().getValue(),current.getNext().getNext()));
+	    current.setNext(new LNode<T>(current.getNext().getNext().getValue(),current.getNext().getNext()));
 	    return removed;
 	}
     }
@@ -97,7 +97,7 @@ public class MyLinkedList{
 	return current.getValue();
     }
 
-    public T set(int index, int value){
+    public T set(int index, T value){
 	LNode<T> current=head;
 	int crntIndex=0;
 	while (crntIndex!=index){
@@ -109,6 +109,18 @@ public class MyLinkedList{
 	return replaced;
     }
 
+    public int indexOf(T value){
+	LNode<T> current=head;
+	int ctr=0;
+	while (current.getNext()!=null){
+	    if (current.getValue().equals(value)){
+		return ctr;
+	    }
+	    ctr++;
+	    current=current.getNext();
+	}
+	return -1;
+    }
     public int size(){
 	return size;
     }
