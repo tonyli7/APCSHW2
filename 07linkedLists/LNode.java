@@ -30,5 +30,9 @@ public class LNode<T>{
     public String toString(){
 	return ""+value;
     }
+
+    public String name(){
+	return "li.tony";
+    }
     
 }

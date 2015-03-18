@@ -4,6 +4,7 @@ public class MyLinkedList<T> implements Iterable<T>{
     private LNode<T> tail;
     private int size;
 
+ 
     public MyLinkedList(){
 	size=0;
     }
@@ -122,13 +123,16 @@ public class MyLinkedList<T> implements Iterable<T>{
 	}
 	return -1;
     }
+
     public int size(){
 	return size;
     }
 
-    /* public class MLLIterator<T> implements Iterator<T>{
-	LNode l;
-	public MLLIterator(LNode n){
+    private class MLLIterator<T> implements Iterator<T>{
+	private LNode<T> l;
+
+
+	public MLLIterator(LNode<T> n){
 	    l=n;
 	}
 
@@ -140,10 +144,11 @@ public class MyLinkedList<T> implements Iterable<T>{
 	}
 
 	public T next(){
-	    if (!(l.hasNext())){
+	    if (!(this.hasNext())){
 		throw new NoSuchElementException();
 	    }else{
-		return l.getNext().getValue();
+		l=l.getNext();
+		return l.getValue();
 	    }
 	}
 
@@ -151,5 +156,9 @@ public class MyLinkedList<T> implements Iterable<T>{
 	    throw new UnsupportedOperationException();
 	}
     }
-    */
+
+    public Iterator<T> iterator(){
+	return new MLLIterator<T>(head);
+    }
+   
 }
