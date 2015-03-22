@@ -1,33 +1,41 @@
 import java.util.*;
-public class MyStack<T>{
-  
-    MyLinkedList<T> stax;
-
+public class MyStack{
+    private ArrayList<String> stax;
+    
     public MyStack(){
-	stax=new MyLinkedList<T>();
+	stax=new ArrayList<String>();
     }
-
-  
+    public String toString(){
+	String list="[";
+	for (String e:stax){
+	    list+=e+" , ";
+	}
+	return list.substring(0,list.length()-2)+"]";
+    }
 
     public boolean empty(){
-	if (stax.size()==0){
-	    return true;
+	return stax.size()==0;
+    }
+    public String pop(){
+	if (!empty()){
+	    String popped=stax.get(stax.size()-1);
+	    stax.remove(stax.size()-1);
+	    return popped;
 	}
-	return false;
+	throw new EmptyStackException();
     }
 
-    public T push(T pancake){
+    public String push(String pancake){
 	stax.add(pancake);
 	return pancake;
     }
 
-    public T peek(){
-	return stax.getEnd();
+    public String peek(){
+	if (!empty()){
+	    return stax.get(stax.size()-1);
+	}
+	throw new EmptyStackException();
     }
-
-    public String toString(){
-	return stax.toString();
-    }
-
-   
+    
+    
 }

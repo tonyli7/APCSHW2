@@ -1,8 +1,9 @@
 public class Driver{
     public static void main(String[]args){
-	MyStack<String> p=new MyStack<String>();
-	p.push("fuck");
-	//	p.push("yes");
+	MyStack p=new MyStack();
+	p.push("hey");
+	p.push("you");
+	p.pop();
 	System.out.println(p);
     }
 }
