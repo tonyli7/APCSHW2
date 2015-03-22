@@ -1,20 +1,16 @@
 import java.util.*;
 public class MyStack<T>{
-    LNode<T> end;
-    int size;
+  
     MyLinkedList<T> stax;
 
     public MyStack(){
-	this(0);
+	stax=new MyLinkedList<T>();
     }
 
-    public MyStack(int size){
-	this.size=size;
-	end=0;
-    }
+  
 
     public boolean empty(){
-	if (size==0){
+	if (stax.size()==0){
 	    return true;
 	}
 	return false;
@@ -23,6 +19,14 @@ public class MyStack<T>{
     public T push(T pancake){
 	stax.add(pancake);
 	return pancake;
+    }
+
+    public T peek(){
+	return stax.getEnd();
+    }
+
+    public String toString(){
+	return stax.toString();
     }
 
    
