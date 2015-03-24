@@ -1,4 +1,5 @@
-public class MyQueue extends MyLinkedList<T>{
+import java.util.*;
+public class MyQueue<T> extends MyLinkedList<T>{
     private MyLinkedList<T> q;
   
 
@@ -7,21 +8,24 @@ public class MyQueue extends MyLinkedList<T>{
     }
 
     public boolean enqueue(T element){
-	if (q.size()==0){
-	    head=new LNode<T>(element);
-	    return true;
-	}
-	tail.setNext(new LNode<T>(element));
-	tail=new LNode<T>(element);
+	q.add(element);
 	return true;
     }
 
     public T dequeue(){
 	if (q.size()==0){
-	    return -1;
+	    throw new NoSuchElementException();
 	}
-	T dequeued=head.getValue();
-	head=null;
-	return dequeued;
+	return q.remove(0);
+    }
+
+    public String toString(){
+	String list="]";
+	for (T val:q){
+	    System.out.println(q.size());
+	    System.out.println(val);
+	    list=" "+val+list;
+	}
+	return "["+list;
     }
 }
