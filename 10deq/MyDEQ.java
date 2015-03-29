@@ -2,7 +2,6 @@ public class MyDEQ{
     private int[] deck;
     private int head,tail;
     private int size;
-    private int headpos,tailpos;
 
     public MyDEQ(int size){
 	deck=new int[size];
@@ -12,24 +11,39 @@ public class MyDEQ{
     public void addFirst(int value){	      
 	if (size==0){
 	    deck[0]=value;
-	    headpos=0;
-	    tailpos=0;
+	    head=0;
+	    tail=0;
 	    size++;
 	}else{
-	    headpos++;
-	    deck[headpos]=value;
+	    head++;
+	    deck[head]=value;
 	    size++;
 	}
     }
 
     public String toString(){
 	String deq="[ ";
-	for (int i=headpos;i<size;i++){
+	for (int i=0;i<deck.length;i++){
 	    deq+=deck[i]+" ";
 	}
-	for (int j=tailpos;j<headpos;j++){
-	    deq+=deck[j]+" ";
+	return deq+"]\n\n head: "+head+"   tail: "+tail;
+    }
+
+    public String toStringX(){
+	String deq="[ ";
+	if (head>=tail){
+	    for (int i=head;i>=tail;i--){
+		deq+=deck[i]+" ";
+	    }
+	    return deq+="]";
+	}else{
+	    for (int i=head;i>=0;i--){
+		deq+=deck[i]+" ";
+	    }
+	    for (int i=deck.length;i>=tail;i--){
+		deq+=deck[i]+" ";
+	    }
+	    return deq+="]";
 	}
-	return deq+"]";
     }
 }
