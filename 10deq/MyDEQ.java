@@ -79,6 +79,17 @@ public class MyDEQ{
 	return temp;
     }
 
+    public int getFirst(){
+	return deck[head-1];
+    }
+
+    public int getLast(){
+	if (deck[deck.length-1]==0){
+	    return deck[0];
+	}
+	return deck[tail+1];
+    }
+
     public String toString(){
 	String deq="[ ";
 	for (int i=0;i<deck.length;i++){

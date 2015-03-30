@@ -6,7 +6,7 @@ public class Driver{
 	}
 	System.out.println(d.size());
 	d.addFirst(10);
-	System.out.println(d);
+	System.out.println(d.getLast());
 	System.out.println(d.toStringX());
 
 
