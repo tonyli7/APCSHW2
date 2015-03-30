@@ -1,13 +1,11 @@
 public class Driver{
     public static void main(String[]args){
 	MyDEQ d=new MyDEQ(10);
-	d.addFirst(1);
-	d.addFirst(3);
-	d.addFirst(5);
-	d.addLast(4);
-	d.addLast(10);
-	d.removeFirst();
-	d.removeLast();
+	for (int i=0;i<10;i++){
+	    d.addFirst(i);
+	}
+	System.out.println(d.size());
+	d.addFirst(10);
 	System.out.println(d);
 	System.out.println(d.toStringX());
 
