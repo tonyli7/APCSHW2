@@ -5,20 +5,35 @@ public class MyDEQ{
 
     public MyDEQ(int size){
 	deck=new int[size];
+	head=0;
+	tail=deck.length-1;
 	this.size=0;
     }
     
     public void addFirst(int value){	      
-	if (size==0){
-	    deck[0]=value;
-	    head=0;
-	    tail=0;
-	    size++;
-	}else{
-	    head++;
-	    deck[head]=value;
-	    size++;
-	}
+	deck[head]=value;
+	head++;
+	size++;
+    }
+
+    public void addLast(int value){
+	deck[tail]=value;
+	tail--;
+	size++;
+    }
+
+    public int removeFirst(){
+	int temp=deck[head-1];
+	head--;
+	size--;
+	return temp;
+    }
+
+    public int removeLast(){
+	int temp=deck[tail+1];
+	tail++;
+	size--;
+	return temp;
     }
 
     public String toString(){
@@ -26,21 +41,22 @@ public class MyDEQ{
 	for (int i=0;i<deck.length;i++){
 	    deq+=deck[i]+" ";
 	}
-	return deq+"]\n\n head: "+head+"   tail: "+tail;
+	return deq+"]\n\n head: "+(head-1)+"   tail: "+(tail+1);
     }
 
     public String toStringX(){
 	String deq="[ ";
-	if (head>=tail){
-	    for (int i=head;i>=tail;i--){
+	if (head-1>=tail+1){
+	    for (int i=head-1;i>=tail+1;i--){
 		deq+=deck[i]+" ";
 	    }
 	    return deq+="]";
 	}else{
-	    for (int i=head;i>=0;i--){
+	    for (int i=head-1;i>=0;i--){
 		deq+=deck[i]+" ";
 	    }
-	    for (int i=deck.length;i>=tail;i--){
+	    for (int i=deck.length-1;i>tail;i--){
+	       
 		deq+=deck[i]+" ";
 	    }
 	    return deq+="]";
