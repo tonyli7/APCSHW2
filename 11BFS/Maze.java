@@ -6,6 +6,7 @@ public class Maze{
     private int maxx,maxy;
     private int startx,starty;
     private MyDEQ<Cors> frontier;
+    private ArrayList<Integer> solutions;
     //Terminal keycodes to clear the terminal, or hide/show the cursor
     private String clear =  "\033[2J";
     private String hide =  "\033[?25l";
@@ -49,6 +50,7 @@ public class Maze{
 	}
 
 	frontier=new MyDEQ<Cors>();
+	solutions=new ArrayList<Integer>(2);
     }
 
     public void wait(int millis){
@@ -121,10 +123,21 @@ public class Maze{
 
 	    for (int[] cor: next){
 		if (maze[cor[0]][cor[1]]=='E'){
+		    Cors yay=new Cors(cor[0],cor[1]);
+		    yay.setPrev(removed);
+		    solutions.add(yay.getX());
+		    solutions.add(yay.getY());
+		    yay=yay.getPrev();
+		    while (yay!=null){
+			solutions.add(yay.getX());
+			solutions.add(yay.getY());
+			yay=yay.getPrev();
+		    }
 		    return true;
 		}
 		if (maze[cor[0]][cor[1]]==' '){
 		    frontier.addLast(new Cors(cor[0],cor[1]));
+		    frontier.getLast().setPrev(removed);
 		    maze[currX][currY]='.';
 		}
 	    }
@@ -132,6 +145,17 @@ public class Maze{
 	}
 	return false;
     }
+
+    public int[] solutionCoordinates(){
+	int[] set=new int[solutions.size()];
+	int n=0;
+	for (int i=solutions.size()-1;i>=0;i--){
+	    set[n]=solutions.get(i);
+	    n++;
+	}
+	return set;
+    }
+    
     /*
     public boolean solveDFS(boolean animate){
     }
