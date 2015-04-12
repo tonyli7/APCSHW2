@@ -3,7 +3,7 @@ public class Driver{
 	
 	Maze m=new Maze("data1.dat");
 	//	System.out.println(m);
-	if (m.solveBFS(true)){
+	if (m.solveDFS(true)){
 	    System.out.println(m);
 	}
 	String s="[ ";

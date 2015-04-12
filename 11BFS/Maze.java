@@ -146,6 +146,56 @@ public class Maze{
 	return false;
     }
 
+    public boolean solveDFS(boolean animate){
+	frontier.addFirst(new Cors(startx,starty));
+	
+	while(frontier.size()!=0){
+	    
+	    if (animate){
+		wait(20);
+		clearTerminal();
+		System.out.println(this.toString(true));
+	    }
+
+	   
+	    System.out.println(frontier);
+	   
+	    Cors removed=frontier.removeLast();
+	    int currX=removed.getX();
+	    int currY=removed.getY();
+	    int next[][]={
+		 {currX+1,currY},
+		 {currX-1,currY},
+		 {currX,currY+1},
+		 {currX,currY-1}
+	    };
+
+	    for (int[] cor: next){
+		if (maze[cor[0]][cor[1]]=='E'){
+		    Cors yay=new Cors(cor[0],cor[1]);
+		    yay.setPrev(removed);
+		    solutions.add(yay.getX());
+		    solutions.add(yay.getY());
+		    yay=yay.getPrev();
+		    while (yay!=null){
+			solutions.add(yay.getX());
+			solutions.add(yay.getY());
+			yay=yay.getPrev();
+		    }
+		    return true;
+		}
+		if (maze[cor[0]][cor[1]]==' '){
+		    frontier.addLast(new Cors(cor[0],cor[1]));
+		    frontier.getLast().setPrev(removed);
+		    maze[currX][currY]='.';
+		}
+	    }
+	   
+	}
+	return false;
+    }
+    
+
     public int[] solutionCoordinates(){
 	int[] set=new int[solutions.size()];
 	int n=0;
@@ -155,6 +205,7 @@ public class Maze{
 	}
 	return set;
     }
+    
     
     /*
     public boolean solveDFS(boolean animate){
