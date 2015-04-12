@@ -208,7 +208,7 @@ public class Maze{
     }
     
     
-    
+   
    
 
     public boolean solveBFS(){
@@ -219,5 +219,7 @@ public class Maze{
 	return solveDFS(false);
     }
 
-   
+    public String name(){
+	return "li.tony";
+    }
 }
