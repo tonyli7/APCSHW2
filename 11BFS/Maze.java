@@ -129,6 +129,7 @@ public class Maze{
 		    solutions.add(yay.getY());
 		    yay=yay.getPrev();
 		    while (yay!=null){
+			maze[yay.getX()][yay.getY()]='X';
 			solutions.add(yay.getX());
 			solutions.add(yay.getY());
 			yay=yay.getPrev();
@@ -207,9 +208,8 @@ public class Maze{
     }
     
     
-    /*
-    public boolean solveDFS(boolean animate){
-    }
+    
+   
 
     public boolean solveBFS(){
 	return solveBFS(false);
@@ -219,7 +219,5 @@ public class Maze{
 	return solveDFS(false);
     }
 
-    public int[] solutionCoordinates(){
-    }
-    */
+   
 }
