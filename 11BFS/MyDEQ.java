@@ -29,24 +29,29 @@ public class MyDEQ<T>{
 
     public void resize(){
 	T[] storage=(T[]) new Object[size];
+	int[] pstorage=new int[size];
 	if (head<=tail){
 	    for (int i=head;i<=tail;i++){
 		storage[i]=deck[i];
+		pstorage[i]=priorities[i];
 	    }
 	    
 	}else{
 	    for (int i=head;i<deck.length;i++){
 		storage[i]=deck[i];
+		pstorage[i]=priorities[i];
 	    }
 	    for (int i=0;i<=tail;i++){
 	       
 		storage[i]=deck[i];
+		pstorage[i]=priorities[i];
 	    }
 	    
 	}
 	head=0;
 	tail=size-1;
 	deck=storage;
+	priorities=pstorage;
     }
 
     public void addFirst(T value){	  
@@ -99,7 +104,21 @@ public class MyDEQ<T>{
     }
 
     public T removeSmallest(){
-	
+	if ((size<=deck.length/4) && deck.length>=100000){
+	    resize();
+	}
+	int smallest=priorities[0];
+	int index=0;
+	for (int i=1;i<priorities.length;i++){
+	    if (smallest>priorities[i]){
+		smallest=priorities[i];
+		index=i;
+	    }
+	}
+	T temp=deck[index];
+	deck[index]=deck[head];
+	head=render(head+1);
+	return temp;
     }
 
     public T getFirst(){
