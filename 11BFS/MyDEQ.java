@@ -1,5 +1,6 @@
 public class MyDEQ<T>{
     private T[] deck;
+    private int[] priorities;
     public int head,tail;
     private int size;
 
@@ -9,6 +10,7 @@ public class MyDEQ<T>{
 
     public MyDEQ(int size){
 	deck=(T[]) new Object[size];
+	priorities=new int[size];
 	head=0;
 	tail=deck.length-1;
 	this.size=0;
@@ -67,6 +69,14 @@ public class MyDEQ<T>{
 	size++;
     }
 
+    public void add(Object o,int i){
+	if (size==deck.length){
+	    resize();
+	}
+	deck.addLast(o);
+	priorities[tail]=i;
+    }
+
     public T removeFirst(){
 	if ((size<=deck.length/4) && deck.length>=100000){
 	    resize();
@@ -86,6 +96,10 @@ public class MyDEQ<T>{
 	tail=render(tail-1);
 	size--;
 	return temp;
+    }
+
+    public T removeSmallest(){
+	
     }
 
     public T getFirst(){
