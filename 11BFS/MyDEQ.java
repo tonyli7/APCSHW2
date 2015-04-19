@@ -78,7 +78,7 @@ public class MyDEQ<T>{
 	if (size==deck.length){
 	    resize();
 	}
-	deck.addLast(o);
+	this<T>.addLast(o);
 	priorities[tail]=i;
     }
 

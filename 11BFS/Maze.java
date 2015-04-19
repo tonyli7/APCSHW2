@@ -96,8 +96,64 @@ public class Maze{
 	return "NO!";
     }
 
-    public boolean solveBFS(boolean animate){
+    public boolean solve(boolean animate,int method){
+	frontier.addFirst(new Cors(startx,starty));
+	
+	while(frontier.size()!=0){
+	    
+	    if (animate){
+		wait(20);
+		clearTerminal();
+		System.out.println(this.toString(true));
+	    }
 
+	   
+	    System.out.println(frontier);
+	    Cors removed;
+	    if (method==0){
+		removed=frontier.removeFirst();
+	    }
+	    else if(method==1){
+		removed=frontier.removeLast();
+	    }
+	    int currX=removed.getX();
+	    int currY=removed.getY();
+	    int next[][]={
+		{currX+1,currY},
+		{currX-1,currY},
+		{currX,currY+1},
+		{currX,currY-1}
+	    };
+
+	    for (int[] cor: next){
+		if (maze[cor[0]][cor[1]]=='E'){
+		    Cors yay=new Cors(cor[0],cor[1]);
+		    yay.setPrev(removed);
+		    solutions.add(yay.getX());
+		    solutions.add(yay.getY());
+		    yay=yay.getPrev();
+		    while (yay!=null){
+			maze[yay.getX()][yay.getY()]='X';
+			solutions.add(yay.getX());
+			solutions.add(yay.getY());
+			yay=yay.getPrev();
+		    }
+		    return true;
+		}
+		if (maze[cor[0]][cor[1]]==' '){
+		    frontier.addLast(new Cors(cor[0],cor[1]));
+		    frontier.getLast().setPrev(removed);
+		    maze[currX][currY]='.';
+		}
+	    }
+	   
+	}
+	return false;
+    }
+
+    public boolean solveBFS(boolean animate){
+	return solve(animate,0);
+	/*
 	frontier.addFirst(new Cors(startx,starty));
 	
 	while(frontier.size()!=0){
@@ -145,9 +201,12 @@ public class Maze{
 	   
 	}
 	return false;
+	*/
     }
 
     public boolean solveDFS(boolean animate){
+	return solve(animate,1);
+	/*
 	frontier.addFirst(new Cors(startx,starty));
 	
 	while(frontier.size()!=0){
@@ -181,6 +240,7 @@ public class Maze{
 		    while (yay!=null){
 			solutions.add(yay.getX());
 			solutions.add(yay.getY());
+			maze[yay.getX()][yay.getY()];
 			yay=yay.getPrev();
 		    }
 		    return true;
@@ -194,7 +254,9 @@ public class Maze{
 	   
 	}
 	return false;
+	*/
     }
+    
     
 
     public int[] solutionCoordinates(){
