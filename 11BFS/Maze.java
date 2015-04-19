@@ -3,6 +3,7 @@ import java.io.*;
 
 public class Maze{
     private char[][]maze;
+   
     private int maxx,maxy;
     private int startx,starty;
     private MyDEQ<Cors> frontier;
@@ -110,12 +111,7 @@ public class Maze{
 	   
 	    System.out.println(frontier);
 	    Cors removed;
-	    if (method==0){
-		removed=frontier.removeFirst();
-	    }
-	    else if(method==1){
-		removed=frontier.removeLast();
-	    }
+	    removed=frontier.remove(method);
 	    int currX=removed.getX();
 	    int currY=removed.getY();
 	    int next[][]={
@@ -141,7 +137,7 @@ public class Maze{
 		    return true;
 		}
 		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
+		    frontier.customAdd(new Cors(cor[0],cor[1]),method,1);
 		    frontier.getLast().setPrev(removed);
 		    maze[currX][currY]='.';
 		}
@@ -153,111 +149,16 @@ public class Maze{
 
     public boolean solveBFS(boolean animate){
 	return solve(animate,0);
-	/*
-	frontier.addFirst(new Cors(startx,starty));
-	
-	while(frontier.size()!=0){
-	    
-	    if (animate){
-		wait(20);
-		clearTerminal();
-		System.out.println(this.toString(true));
-	    }
 
-	   
-	    System.out.println(frontier);
-	   
-	    Cors removed=frontier.removeFirst();
-	    int currX=removed.getX();
-	    int currY=removed.getY();
-	    int next[][]={
-		 {currX+1,currY},
-		 {currX-1,currY},
-		 {currX,currY+1},
-		 {currX,currY-1}
-	    };
-
-	    for (int[] cor: next){
-		if (maze[cor[0]][cor[1]]=='E'){
-		    Cors yay=new Cors(cor[0],cor[1]);
-		    yay.setPrev(removed);
-		    solutions.add(yay.getX());
-		    solutions.add(yay.getY());
-		    yay=yay.getPrev();
-		    while (yay!=null){
-			maze[yay.getX()][yay.getY()]='X';
-			solutions.add(yay.getX());
-			solutions.add(yay.getY());
-			yay=yay.getPrev();
-		    }
-		    return true;
-		}
-		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
-		    frontier.getLast().setPrev(removed);
-		    maze[currX][currY]='.';
-		}
-	    }
-	   
-	}
-	return false;
-	*/
     }
 
     public boolean solveDFS(boolean animate){
 	return solve(animate,1);
-	/*
-	frontier.addFirst(new Cors(startx,starty));
-	
-	while(frontier.size()!=0){
-	    
-	    if (animate){
-		wait(20);
-		clearTerminal();
-		System.out.println(this.toString(true));
-	    }
 
-	   
-	    System.out.println(frontier);
-	   
-	    Cors removed=frontier.removeLast();
-	    int currX=removed.getX();
-	    int currY=removed.getY();
-	    int next[][]={
-		 {currX+1,currY},
-		 {currX-1,currY},
-		 {currX,currY+1},
-		 {currX,currY-1}
-	    };
-
-	    for (int[] cor: next){
-		if (maze[cor[0]][cor[1]]=='E'){
-		    Cors yay=new Cors(cor[0],cor[1]);
-		    yay.setPrev(removed);
-		    solutions.add(yay.getX());
-		    solutions.add(yay.getY());
-		    yay=yay.getPrev();
-		    while (yay!=null){
-			solutions.add(yay.getX());
-			solutions.add(yay.getY());
-			maze[yay.getX()][yay.getY()];
-			yay=yay.getPrev();
-		    }
-		    return true;
-		}
-		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
-		    frontier.getLast().setPrev(removed);
-		    maze[currX][currY]='.';
-		}
-	    }
-	   
-	}
-	return false;
-	*/
     }
     
-    
+    //public solveBest(boolean animate){}
+    //public solveAStar(boolean animate{}
 
     public int[] solutionCoordinates(){
 	int[] set=new int[solutions.size()];
@@ -281,7 +182,10 @@ public class Maze{
 	return solveDFS(false);
     }
 
+   
+    
     public String name(){
 	return "li.tony";
     }
+
 }

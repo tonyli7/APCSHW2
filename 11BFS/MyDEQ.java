@@ -74,11 +74,11 @@ public class MyDEQ<T>{
 	size++;
     }
 
-    public void add(Object o,int i){
+    public void add(T o,int i){
 	if (size==deck.length){
 	    resize();
 	}
-	this<T>.addLast(o);
+	addLast(o);
 	priorities[tail]=i;
     }
 
@@ -109,8 +109,10 @@ public class MyDEQ<T>{
 	}
 	int smallest=priorities[0];
 	int index=0;
-	for (int i=1;i<priorities.length;i++){
+	for (int i=1;i<size();i++){
+	    
 	    if (smallest>priorities[i]){
+	
 		smallest=priorities[i];
 		index=i;
 	    }
@@ -118,6 +120,7 @@ public class MyDEQ<T>{
 	T temp=deck[index];
 	deck[index]=deck[head];
 	head=render(head+1);
+	size--;
 	return temp;
     }
 
@@ -128,6 +131,27 @@ public class MyDEQ<T>{
     public T getLast(){
 
 	return deck[tail];
+    }
+
+    public T remove(int method){
+	if (method==0){
+	    return removeFirst();
+	}
+	if (method==1){
+	    return removeLast();
+	}
+	else{
+	    return removeSmallest();
+	}
+    }
+
+    public void customAdd(T val, int method, int priority){
+	if (method>=3){
+	    add(val,priority);
+	}
+	else{
+	    addLast(val);
+	}
     }
     /*
     public String toString(){

@@ -1,9 +1,10 @@
 public class Driver{
     public static void main(String[]args){
-	
+
 	Maze m=new Maze("data1.dat");
+
 	//	System.out.println(m);
-	if (m.solveDFS(true)){
+	if (m.solveBFS(true)){
 	    System.out.println(m);
 	}
 	String s="[ ";
@@ -20,5 +21,6 @@ public class Driver{
 	    }
 	}
 	System.out.println(s);
+	
     }
 }
