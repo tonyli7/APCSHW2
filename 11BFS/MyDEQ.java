@@ -152,35 +152,7 @@ public class MyDEQ<T>{
 	return deck[tail];
     }
 
-    public T getSmallest(){
-	int smallest=priorities[head];
-
-	int index=head;
-	if (head<=tail){
-	    for (int i=head;i<=tail;i++){
-		if (priorities[i]<smallest){
-		    smallest=priorities[i];
-		    index=i;
-		}
-	    }
-	    
-	}else{
-	    for (int i=head;i<priorities.length;i++){
-		if (priorities[i]<smallest){
-		    smallest=priorities[i];
-		    index=i;
-		}
-	    }
-	    for (int i=0;i<=tail;i++){
-	       	if (priorities[i]<smallest){
-		    smallest=priorities[i];
-		    index=i;
-		}
-	    }
-	    
-	}
-	return deck[index];
-    }
+   
 
     public T remove(int method){
 	if (method==0){

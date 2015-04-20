@@ -134,6 +134,7 @@ public class Maze{
 		    yay=yay.getPrev();
 		    while (yay!=null){
 			maze[yay.getX()][yay.getY()]='X';
+			System.out.println(1);
 			solutions.add(yay.getX());
 			solutions.add(yay.getY());
 			yay=yay.getPrev();
@@ -143,7 +144,8 @@ public class Maze{
 		if (maze[cor[0]][cor[1]]==' '){
 		    frontier.customAdd(new Cors(cor[0],cor[1]),method,priority(method,cor[0],cor[1]));
 		    System.out.println(frontier);
-		    frontier.get(method).setPrev(removed);
+		    frontier.getLast().setPrev(removed);
+		    
 		    maze[currX][currY]='.';
 		    
 		}
