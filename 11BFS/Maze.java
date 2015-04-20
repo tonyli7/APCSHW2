@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Maze{
     private char[][]maze;
-   
+    private int steps;
     private int maxx,maxy;
     private int startx,starty, endx, endy;
     private MyDEQ<Cors> frontier;
@@ -56,6 +56,7 @@ public class Maze{
 
 	frontier=new MyDEQ<Cors>();
 	solutions=new ArrayList<Integer>(2);
+	steps=0;
     }
 
     public void wait(int millis){
@@ -105,7 +106,7 @@ public class Maze{
 	frontier.customAdd(new Cors(startx,starty),method,1);
 	
 	while(frontier.size()!=0){
-	    
+	    steps=frontier.size();
 	    if (animate){
 		wait(100);
 		clearTerminal();
@@ -169,7 +170,10 @@ public class Maze{
     public boolean solveBest(boolean animate){
 	return solve(animate,2);
     }
-    //public solveAStar(boolean animate{}
+
+    public boolean solveAStar(boolean animate){
+	return solve(animate,3);
+    }
 
     public int[] solutionCoordinates(){
 	int[] set=new int[solutions.size()];
@@ -183,11 +187,14 @@ public class Maze{
     
     
     public int priority(int method, int currX, int currY){
-	//	if (method==2){
-	return Math.abs(currX-endx)+Math.abs(currY-endy);
-	    //	}
+	if (method==2){
+	    return Math.abs(currX-endx)+Math.abs(currY-endy);
+	}
+
+	return steps+Math.abs(currX-endx)+Math.abs(currY-endy);
 	
     }
+    
    
 
     public boolean solveBFS(){

@@ -175,14 +175,7 @@ public class MyDEQ<T>{
 	}
     }
 
-    public T get(int method){
-	if (method>=2){
-	    return getSmallest();
-	}
-	else{
-	    return getLast();
-	}
-    }
+   
 
     
     /*
