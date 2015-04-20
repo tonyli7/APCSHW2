@@ -5,7 +5,7 @@ public class Maze{
     private char[][]maze;
    
     private int maxx,maxy;
-    private int startx,starty;
+    private int startx,starty, endx, endy;
     private MyDEQ<Cors> frontier;
     private ArrayList<Integer> solutions;
     //Terminal keycodes to clear the terminal, or hide/show the cursor
@@ -47,6 +47,10 @@ public class Maze{
 	    if(c == 'S'){
 		startx = i % maxx;
 		starty = i / maxx;
+	    }
+	    if(c == 'E'){
+		endx = i % maxx;
+		endy = i / maxx;
 	    }
 	}
 
@@ -98,20 +102,20 @@ public class Maze{
     }
 
     public boolean solve(boolean animate,int method){
-	frontier.addFirst(new Cors(startx,starty));
+	frontier.customAdd(new Cors(startx,starty),method,1);
 	
 	while(frontier.size()!=0){
 	    
 	    if (animate){
-		wait(20);
+		wait(100);
 		clearTerminal();
 		System.out.println(this.toString(true));
 	    }
 
 	   
 	    System.out.println(frontier);
-	    Cors removed;
-	    removed=frontier.remove(method);
+	    Cors removed=frontier.remove(method);
+	  
 	    int currX=removed.getX();
 	    int currY=removed.getY();
 	    int next[][]={
@@ -120,7 +124,7 @@ public class Maze{
 		{currX,currY+1},
 		{currX,currY-1}
 	    };
-
+	    
 	    for (int[] cor: next){
 		if (maze[cor[0]][cor[1]]=='E'){
 		    Cors yay=new Cors(cor[0],cor[1]);
@@ -137,11 +141,14 @@ public class Maze{
 		    return true;
 		}
 		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.customAdd(new Cors(cor[0],cor[1]),method,1);
-		    frontier.getLast().setPrev(removed);
+		    frontier.customAdd(new Cors(cor[0],cor[1]),method,priority(method,cor[0],cor[1]));
+		    System.out.println(frontier);
+		    frontier.get(method).setPrev(removed);
 		    maze[currX][currY]='.';
+		    
 		}
 	    }
+	    //    System.out.println(frontier.size());
 	   
 	}
 	return false;
@@ -157,7 +164,9 @@ public class Maze{
 
     }
     
-    //public solveBest(boolean animate){}
+    public boolean solveBest(boolean animate){
+	return solve(animate,2);
+    }
     //public solveAStar(boolean animate{}
 
     public int[] solutionCoordinates(){
@@ -171,7 +180,12 @@ public class Maze{
     }
     
     
-   
+    public int priority(int method, int currX, int currY){
+	//	if (method==2){
+	return Math.abs(currX-endx)+Math.abs(currY-endy);
+	    //	}
+	
+    }
    
 
     public boolean solveBFS(){
