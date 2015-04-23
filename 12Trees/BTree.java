@@ -21,7 +21,7 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add( E d ) { 
-	add(root,
+	add(root,new TreeNode<E>(d, root));
     }
 
     /*======== public void add() ==========
@@ -36,6 +36,7 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
+	
     }
     
     public void traverse( int mode) {
