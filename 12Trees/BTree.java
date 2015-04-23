@@ -36,7 +36,9 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-	
+	if (!curr.addData(bn.getData())){
+	    add(curr.getRandChild(),bn);
+	}
     }
     
     public void traverse( int mode) {
