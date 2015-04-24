@@ -3,8 +3,9 @@ import java.io.*;
 
 public class Maze{
     private char[][]maze;
+    private int steps;
     private int maxx,maxy;
-    private int startx,starty;
+    private int startx,starty, endx, endy;
     private MyDEQ<Cors> frontier;
     private ArrayList<Integer> solutions;
     //Terminal keycodes to clear the terminal, or hide/show the cursor
@@ -47,10 +48,15 @@ public class Maze{
 		startx = i % maxx;
 		starty = i / maxx;
 	    }
+	    if(c == 'E'){
+		endx = i % maxx;
+		endy = i / maxx;
+	    }
 	}
 
 	frontier=new MyDEQ<Cors>();
 	solutions=new ArrayList<Integer>(2);
+	steps=0;
     }
 
     public void wait(int millis){
@@ -97,25 +103,20 @@ public class Maze{
     }
 
     public boolean solve(boolean animate,int method){
-	frontier.addFirst(new Cors(startx,starty));
+	frontier.customAdd(new Cors(startx,starty),method,1);
 	
 	while(frontier.size()!=0){
-	    
+	    steps=frontier.size();
 	    if (animate){
-		wait(20);
+		wait(100);
 		clearTerminal();
 		System.out.println(this.toString(true));
 	    }
 
 	   
 	    System.out.println(frontier);
-	    Cors removed;
-	    if (method==0){
-		removed=frontier.removeFirst();
-	    }
-	    else if(method==1){
-		removed=frontier.removeLast();
-	    }
+	    Cors removed=frontier.remove(method);
+	  
 	    int currX=removed.getX();
 	    int currY=removed.getY();
 	    int next[][]={
@@ -124,7 +125,7 @@ public class Maze{
 		{currX,currY+1},
 		{currX,currY-1}
 	    };
-
+	    
 	    for (int[] cor: next){
 		if (maze[cor[0]][cor[1]]=='E'){
 		    Cors yay=new Cors(cor[0],cor[1]);
@@ -134,6 +135,7 @@ public class Maze{
 		    yay=yay.getPrev();
 		    while (yay!=null){
 			maze[yay.getX()][yay.getY()]='X';
+			System.out.println(1);
 			solutions.add(yay.getX());
 			solutions.add(yay.getY());
 			yay=yay.getPrev();
@@ -141,11 +143,15 @@ public class Maze{
 		    return true;
 		}
 		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
+		    frontier.customAdd(new Cors(cor[0],cor[1]),method,priority(method,cor[0],cor[1]));
+		    System.out.println(frontier);
 		    frontier.getLast().setPrev(removed);
+		    
 		    maze[currX][currY]='.';
+		    
 		}
 	    }
+	    //    System.out.println(frontier.size());
 	   
 	}
 	return false;
@@ -153,111 +159,21 @@ public class Maze{
 
     public boolean solveBFS(boolean animate){
 	return solve(animate,0);
-	/*
-	frontier.addFirst(new Cors(startx,starty));
-	
-	while(frontier.size()!=0){
-	    
-	    if (animate){
-		wait(20);
-		clearTerminal();
-		System.out.println(this.toString(true));
-	    }
 
-	   
-	    System.out.println(frontier);
-	   
-	    Cors removed=frontier.removeFirst();
-	    int currX=removed.getX();
-	    int currY=removed.getY();
-	    int next[][]={
-		 {currX+1,currY},
-		 {currX-1,currY},
-		 {currX,currY+1},
-		 {currX,currY-1}
-	    };
-
-	    for (int[] cor: next){
-		if (maze[cor[0]][cor[1]]=='E'){
-		    Cors yay=new Cors(cor[0],cor[1]);
-		    yay.setPrev(removed);
-		    solutions.add(yay.getX());
-		    solutions.add(yay.getY());
-		    yay=yay.getPrev();
-		    while (yay!=null){
-			maze[yay.getX()][yay.getY()]='X';
-			solutions.add(yay.getX());
-			solutions.add(yay.getY());
-			yay=yay.getPrev();
-		    }
-		    return true;
-		}
-		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
-		    frontier.getLast().setPrev(removed);
-		    maze[currX][currY]='.';
-		}
-	    }
-	   
-	}
-	return false;
-	*/
     }
 
     public boolean solveDFS(boolean animate){
 	return solve(animate,1);
-	/*
-	frontier.addFirst(new Cors(startx,starty));
-	
-	while(frontier.size()!=0){
-	    
-	    if (animate){
-		wait(20);
-		clearTerminal();
-		System.out.println(this.toString(true));
-	    }
 
-	   
-	    System.out.println(frontier);
-	   
-	    Cors removed=frontier.removeLast();
-	    int currX=removed.getX();
-	    int currY=removed.getY();
-	    int next[][]={
-		 {currX+1,currY},
-		 {currX-1,currY},
-		 {currX,currY+1},
-		 {currX,currY-1}
-	    };
-
-	    for (int[] cor: next){
-		if (maze[cor[0]][cor[1]]=='E'){
-		    Cors yay=new Cors(cor[0],cor[1]);
-		    yay.setPrev(removed);
-		    solutions.add(yay.getX());
-		    solutions.add(yay.getY());
-		    yay=yay.getPrev();
-		    while (yay!=null){
-			solutions.add(yay.getX());
-			solutions.add(yay.getY());
-			maze[yay.getX()][yay.getY()];
-			yay=yay.getPrev();
-		    }
-		    return true;
-		}
-		if (maze[cor[0]][cor[1]]==' '){
-		    frontier.addLast(new Cors(cor[0],cor[1]));
-		    frontier.getLast().setPrev(removed);
-		    maze[currX][currY]='.';
-		}
-	    }
-	   
-	}
-	return false;
-	*/
     }
     
-    
+    public boolean solveBest(boolean animate){
+	return solve(animate,2);
+    }
+
+    public boolean solveAStar(boolean animate){
+	return solve(animate,3);
+    }
 
     public int[] solutionCoordinates(){
 	int[] set=new int[solutions.size()];
@@ -270,7 +186,15 @@ public class Maze{
     }
     
     
-   
+    public int priority(int method, int currX, int currY){
+	if (method==2){
+	    return Math.abs(currX-endx)+Math.abs(currY-endy);
+	}
+
+	return steps+Math.abs(currX-endx)+Math.abs(currY-endy);
+	
+    }
+    
    
 
     public boolean solveBFS(){
@@ -281,7 +205,10 @@ public class Maze{
 	return solveDFS(false);
     }
 
+   
+    
     public String name(){
 	return "li.tony";
     }
+
 }

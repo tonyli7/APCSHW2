@@ -28,8 +28,8 @@ public class MyDEQ<T>{
     }
 
     public void resize(){
-	T[] storage=(T[]) new Object[size];
-	int[] pstorage=new int[size];
+	T[] storage=(T[]) new Object[size*2];
+	int[] pstorage=new int[size*2];
 	if (head<=tail){
 	    for (int i=head;i<=tail;i++){
 		storage[i]=deck[i];
@@ -74,11 +74,11 @@ public class MyDEQ<T>{
 	size++;
     }
 
-    public void add(Object o,int i){
+    public void add(T o,int i){
 	if (size==deck.length){
 	    resize();
 	}
-	this<T>.addLast(o);
+	addLast(o);
 	priorities[tail]=i;
     }
 
@@ -107,17 +107,39 @@ public class MyDEQ<T>{
 	if ((size<=deck.length/4) && deck.length>=100000){
 	    resize();
 	}
-	int smallest=priorities[0];
-	int index=0;
-	for (int i=1;i<priorities.length;i++){
-	    if (smallest>priorities[i]){
-		smallest=priorities[i];
-		index=i;
+	int smallest=priorities[head];
+	//	System.out.println(priorities[head+1]);
+	int index=head;
+	if (head<=tail){
+	    for (int i=head;i<=tail;i++){
+		if (priorities[i]<smallest){
+		    smallest=priorities[i];
+		    index=i;
+		}
 	    }
+	    
+	}else{
+	    for (int i=head;i<priorities.length;i++){
+		if (priorities[i]<smallest){
+		    smallest=priorities[i];
+		    index=i;
+		}
+	    }
+	    for (int i=0;i<=tail;i++){
+	       	if (priorities[i]<smallest){
+		    smallest=priorities[i];
+		    index=i;
+		}
+	    }
+	    
 	}
 	T temp=deck[index];
+
 	deck[index]=deck[head];
+	priorities[index]=priorities[head];
+	//	deck[head]=null;
 	head=render(head+1);
+	size--;
 	return temp;
     }
 
@@ -129,6 +151,33 @@ public class MyDEQ<T>{
 
 	return deck[tail];
     }
+
+   
+
+    public T remove(int method){
+	if (method==0){
+	    return removeFirst();
+	}
+	if (method==1){
+	    return removeLast();
+	}
+	else{
+	    return removeSmallest();
+	}
+    }
+
+    public void customAdd(T val, int method, int priority){
+	if (method>=2){
+	    add(val,priority);
+	}
+	else{
+	    addLast(val);
+	}
+    }
+
+   
+
+    
     /*
     public String toString(){
 	String deq="[ ";
@@ -157,6 +206,26 @@ public class MyDEQ<T>{
 	    
 	}
 	return deq+="]";
+    }
+
+    public String priorityList(){
+	String list="[ ";
+	if (head<=tail){
+	    for (int i=head;i<=tail;i++){
+		list+=priorities[i]+" ";
+	    }
+	    
+	}else{
+	    for (int i=head;i<priorities.length;i++){
+		list+=deck[i]+" ";
+	    }
+	    for (int i=0;i<=tail;i++){
+	       
+		list+=priorities[i]+" ";
+	    }
+	    
+	}
+	return list+="]";
     }
     
 }
