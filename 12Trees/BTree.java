@@ -36,8 +36,16 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-	if (!curr.addData(bn.getData())){
-	    add(curr.getRandChild(),bn);
+	Random rand=new Random();
+	int rng=rand.nextInt(1);
+	if (rng==0){
+	    if (curr.getLeft()==null){
+		curr.setLeft(bn);
+	    }else if (curr.getRight()==null){
+		curr.setRight(bn);
+	    }else{
+		add(
+	    }
 	}
     }
     
@@ -59,6 +67,8 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
+	String pre="";
+	
     }
 
 
