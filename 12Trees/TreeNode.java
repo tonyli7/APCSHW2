@@ -31,15 +31,23 @@ public class TreeNode<E>{
     }
 
     public void setLeft(TreeNode<E> t){
-	left=t;
+	left=new TreeNode<E>(t.getData(),this);
     }
 
     public void setRight(TreeNode<E> t){
-	right=t;
+	right=new TreeNode<E>(t.getData(),this);
     }
 
     public E getData(){
 	return data;
+    }
+
+    public boolean hasData(){
+	if (data!=null){
+
+	    return true;
+	}
+	return false;
     }
 
     public TreeNode<E> getPrev(){

@@ -21,7 +21,10 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add( E d ) { 
-	add(root,new TreeNode<E>(d, root));
+	if (root==null){
+	    root=new TreeNode<E>(d);
+	}
+	add(root,new TreeNode<E>(d,root));
     }
 
     /*======== public void add() ==========
@@ -38,13 +41,23 @@ public class BTree<E> {
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
 	Random rand=new Random();
 	int rng=rand.nextInt(1);
+
 	if (rng==0){
 	    if (curr.getLeft()==null){
+	
 		curr.setLeft(bn);
 	    }else if (curr.getRight()==null){
 		curr.setRight(bn);
 	    }else{
-		add(
+		add(curr.getLeft(), bn);
+	    }
+	}else{
+	    if (curr.getRight()==null){
+		curr.setRight(bn);
+	    }else if(curr.getLeft()==null){
+		curr.setLeft(bn);
+	    }else{
+		add(curr.getRight(), bn);
 	    }
 	}
     }
@@ -67,7 +80,6 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
-	String pre="";
 	
     }
 
@@ -108,8 +120,14 @@ public class BTree<E> {
       
       ====================*/
     public int getHeight( TreeNode<E> curr ) {
-	return -1;
+
+	if (curr==null){
+	    return 0;
+	}
+
+	return 1+Math.max(getHeight(curr.getRight()),getHeight(curr.getLeft()));
     }
+
 
     /*======== public String getLevel() ==========
       Inputs:   TreeNode<E> curr
@@ -119,8 +137,21 @@ public class BTree<E> {
                given level, ordered left -> right
       
       ====================*/
-    private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
-	return "";
+    private String getLevel(TreeNode<E> curr, int level) {
+	System.out.println(level);
+	if (level==1){
+	    return ""+curr.getData();
+	}
+	if (level==2){
+	    if (curr.getRight().hasData() && curr.getRight().hasData()){
+		return ""+curr.getRight().getData()+curr.getLeft().getData();
+	    }
+	    if (curr.getRight().hasData()){
+		return ""+curr.getRight().getData();
+	    }
+	    return ""+curr.getLeft().getData();
+	}
+	return ""+getLevel(curr.getLeft(),level-1)+getLevel(curr.getRight(),level-1);
     }
     
     /*======== public String toString()) ==========
@@ -139,15 +170,20 @@ public class BTree<E> {
       get the output to look nicer, something like this:
              0
 
-          1      2
+          1     2
 
             3  4   5
 
       ====================*/
     public String toString() {
-	return "";
+	String str="";
+	for (int i=1;i<getHeight();i++){
+	    str+=getLevel(root,i)+"\n";
+	}
+	return str;
     }
-	
+
+  
 
     public static void main( String[] args ) {
 
@@ -155,6 +191,7 @@ public class BTree<E> {
 
 	for ( int i=0; i < 8; i++ ) 
 	    t.add( i );
+	/*
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
 	System.out.println( "In-order: ");
@@ -162,7 +199,7 @@ public class BTree<E> {
 	System.out.println( "Post-order: ");
 	t.traverse( POST_ORDER );
 	System.out.println( "Height: " + t.getHeight() );
-
+	*/
 	System.out.println( t );
     }
 }
