@@ -50,6 +50,21 @@ public class TreeNode<E>{
 	return false;
     }
 
+    public boolean noKids(){
+	if ((left==null) && (right==null)){
+	    return true;
+	}
+	return false;
+    }
+
+    public boolean hasLeft(){
+	return left!=null;
+    }
+
+    public boolean hasRight(){
+	return right!=null;
+    }
+
     public TreeNode<E> getPrev(){
 	return prev;
     }
