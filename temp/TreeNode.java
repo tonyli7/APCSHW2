@@ -27,4 +27,18 @@ public class TreeNode<E>{
     public E getData(){
 	return data;
     }
+
+    public boolean hasLeft(){
+	return left!=null;
+    } 
+
+    public boolean hasRight(){
+	return right!=null;
+    }
+    
+    public boolean isLeaf(){
+	return !hasLeft() && !hasRight();
+    }
+
+    
 }
