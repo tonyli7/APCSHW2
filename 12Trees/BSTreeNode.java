@@ -3,6 +3,7 @@ import java.util.*;
 
 public class BSTreeNode<T extends Comparable> {
 
+    private int count;
     private T data;
     private BSTreeNode<T> left;
     private BSTreeNode<T> right;
@@ -11,6 +12,7 @@ public class BSTreeNode<T extends Comparable> {
  
 	data = d;
 	left = right = null;
+	count=1;
     }
     
     //accessors
@@ -34,6 +36,11 @@ public class BSTreeNode<T extends Comparable> {
     public void setRight( BSTreeNode<T> r ) {
 	right = r;
     }
+
+    public void addCount(){
+	count++;
+    }
+
 }
 
 

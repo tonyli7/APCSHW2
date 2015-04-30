@@ -35,6 +35,7 @@ public class BSTree <T extends Comparable> {
       ====================*/
     private BSTreeNode<T> add(BSTreeNode<T> curr, BSTreeNode<T> t) {
 	if (curr==null){
+	    return tn;
 	}
     }
 
