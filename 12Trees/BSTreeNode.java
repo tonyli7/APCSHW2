@@ -41,6 +41,16 @@ public class BSTreeNode<T extends Comparable> {
 	count++;
     }
 
+    public int compareTo(BSTreeNode<T> other){
+	if (this<other){
+	    return -1;
+	}
+	if (this==other){
+	    return 0;
+	}
+	return 1;
+    }
+
 }
 
 
