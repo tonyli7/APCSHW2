@@ -1,31 +1,39 @@
-public class TreeNode<E>{
-    private TreeNode<E> left,right;
-    private E data;
+public class TreeNode{
+    private TreeNode left,right;
+    private int data;
 
-    TreeNode(E data){
+    TreeNode(int data){
 	this(data,null,null);
     }
 
-    TreeNode(E data, TreeNode<E> left, TreeNode<E> right){
+    TreeNode(int data, TreeNode left, TreeNode right){
 	setData(data);
 	setLeft(left);
 	setRight(right);
     }
     
-    public void setData(E data){
+    public void setData(int data){
 	this.data=data;
     }
 
-    public void setLeft(TreeNode<E> left){
+    public void setLeft(TreeNode left){
 	this.left=left;
     }
 
-    public void setRight(TreeNode<E> right){
+    public void setRight(TreeNode right){
 	this.right=right;
     }
 
-    public E getData(){
+    public int getData(){
 	return data;
+    }
+
+    public TreeNode getLeft(){
+	return left;
+    }
+
+    public TreeNode getRight(){
+	return right;
     }
 
     public boolean hasLeft(){
