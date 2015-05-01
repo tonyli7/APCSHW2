@@ -35,8 +35,18 @@ public class BSTree <T extends Comparable> {
       ====================*/
     private BSTreeNode<T> add(BSTreeNode<T> curr, BSTreeNode<T> t) {
 	if (curr==null){
-	    return tn;
+	    return t;
+	}else if (curr.compareTo(t)<0){
+	    curr.setLeft(add(curr.getLeft(),t));
+	
+	}else if (curr.compareTo(t)==0){
+	    curr.addCount();
+	   
+	}else if (curr.compareTo(t)>0){
+	    curr.setRight(add(curr.getRight(),t));
+	 
 	}
+	return root;
     }
 
     /*======== public void remove() ==========
@@ -81,8 +91,9 @@ public class BSTree <T extends Comparable> {
       root t.
       ====================*/
     public void inOrderHelper( BSTreeNode<T> t ) {
-	if (t == null) 
+	if (t == null) {
 	    return;
+	}
 	inOrderHelper( t.getLeft() );
 	System.out.print( t.getData() + " ");
 	inOrderHelper( t.getRight() );
@@ -90,7 +101,11 @@ public class BSTree <T extends Comparable> {
 
    
     public static void main( String[] args ) {
+	BSTree<Integer> t = new BSTree<Integer>();
 
+	for ( int i=0; i < 8; i++ ) {
+	    t.add( i );
+	}
+	t.inOrder();
     }
-
 }
