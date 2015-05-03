@@ -65,7 +65,12 @@ public class BSTree <T extends Comparable> {
       curr, if it exists.
       ====================*/
     private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
-	return null;
+	if (curr.isLeaf() && curr.getData()==c){
+	    return null;
+	}
+	if (curr.hasLeft() && curr.getLeft()==c){
+	    setLeft(curr.getLeft
+	}
     }
 
 
@@ -110,6 +115,7 @@ public class BSTree <T extends Comparable> {
 	}
     }
 
+    //Stolen toString()+toString() helpers from Dennis Yatunin
     private int maxLength() {
 	// returns the minimum number of characters required
 	// to print the data from any node in the tree
@@ -213,10 +219,18 @@ public class BSTree <T extends Comparable> {
    
     public static void main( String[] args ) {
 	BSTree<Integer> t = new BSTree<Integer>();
-
-	for ( int i=0; i < 8; i++ ) {
+	BSTree<Integer> x = new BSTree<Integer>();
+	x.add(5);
+	for ( int i=7; i < 20; i+=7 ) {
 	    t.add( i );
 	}
+
+	for ( int i=2; i < 10; i+=2){
+	    t.add( i );
+	}
+
 	System.out.println(t);
+	x.remove(5);
+	System.out.println(x);
     }
 }

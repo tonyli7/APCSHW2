@@ -44,6 +44,30 @@ public class BSTreeNode<T extends Comparable> {
     public int compareTo(BSTreeNode<T> other){
 	return this.getData().compareTo(other.getData());
     }
+    
+    public boolean hasLeft(){
+	return left!=null;
+    }
+
+    public boolean hasOnlyLeft(){
+	return hasLeft() && !hasRight();
+    }
+
+    public boolean hasOnlyRight(){
+	return !hasLeft() && hasRight();
+    }
+
+    public boolean hasRight(){
+	return right!=null;
+    }
+
+    public boolean isLeaf(){
+	return !hasLeft() && !hasRight();
+    }
+
+    public boolean hasTwo(){
+	return hasLeft() && hasRight();
+    }
 
     public String toString(){
 	return ""+getData();
