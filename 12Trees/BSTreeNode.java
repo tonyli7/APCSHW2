@@ -45,6 +45,10 @@ public class BSTreeNode<T extends Comparable> {
 	return this.getData().compareTo(other.getData());
     }
 
+    public String toString(){
+	return ""+getData();
+    }
+
 }
 
 
