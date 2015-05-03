@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class BSTree <T extends Comparable> {
-
+    
     private BSTreeNode<T> root;
 
     public BSTree() {
@@ -36,10 +36,10 @@ public class BSTree <T extends Comparable> {
     private BSTreeNode<T> add(BSTreeNode<T> curr, BSTreeNode<T> t) {
 	if (curr==null){
 	    return t;
-	}else if (curr.compareTo(t)>0){
+	}else if (curr.compareTo(t.getData())>0){
 	    curr.setLeft(add(curr.getLeft(),t));
 	   
-	}else if (curr.compareTo(t)<0){
+	}else if (curr.compareTo(t.getData())<0){
 	    curr.setRight(add(curr.getRight(),t));
 	 
 	}
@@ -68,9 +68,57 @@ public class BSTree <T extends Comparable> {
 	if (curr.isLeaf() && curr.getData()==c){
 	    return null;
 	}
-	if (curr.hasLeft() && curr.getLeft()==c){
-	    setLeft(curr.getLeft
+	if (curr.hasLeft() && (curr.getLeft().hasOnlyLeft() && curr.getLeft().getData()==c)){
+	    curr.setLeft(curr.getLeft().getLeft());
+	    return curr;
 	}
+	if (curr.hasRight() && (curr.getRight().hasOnlyRight() && curr.getRight().getData()==c)){
+	    curr.setRight(curr.getRight().getRight());
+	    return curr;
+	}if (curr.getLeft().getData()==c){
+	    
+	}else if(curr.compareTo(c)>0){
+	    return remove(curr.getLeft(),c);
+	}else if (curr.compareTo(c)<0){
+	    return remove(curr.getRight(),c);
+	}
+	return curr;
+    }
+
+    private BSTreeNode<T> getClosest(BSTreeNode<T> original){
+	BSTreeNode<T> leftClosest=original;
+	BSTreeNode<T> rightClosest=original;
+	if (original.hasLeft()){
+	    leftClosest=getClosestLeft( original.getLeft() );
+	}
+	if (original.hasRight()){
+	    rightClosest=getClosestRight( original.getRight() );
+	}
+
+	Random rand=new Random();
+	int rng=rand.nextInt(1);
+	if (rng==1){
+	    return leftClosest;
+	}
+	return rightClosest;
+    }
+
+    private BSTreeNode<T> getClosestLeft(BSTreeNode<T> curr){
+	if (!curr.hasRight()){
+	    return curr;
+	}
+	return getClosestLeft(curr.getRight());
+    }
+
+    private BSTreeNode<T> getClosestRight(BSTreeNode<T> curr){
+	if (!curr.hasLeft()){
+	    return curr;
+	}
+	return getClosestLeft(curr.getLeft());
+    }
+
+    public void test(){
+	System.out.println(getClosest(root));
     }
 
 
@@ -105,7 +153,7 @@ public class BSTree <T extends Comparable> {
 	return getHeight(root);
     }
 
-    private int getHeight(BSTreeNode<T> r ){
+    private int getHeight(BSTreeNode<T> r){
 	if(r == null){
 	    return 0;
 	}else{
@@ -220,17 +268,20 @@ public class BSTree <T extends Comparable> {
     public static void main( String[] args ) {
 	BSTree<Integer> t = new BSTree<Integer>();
 	BSTree<Integer> x = new BSTree<Integer>();
-	x.add(5);
+
 	for ( int i=7; i < 20; i+=7 ) {
 	    t.add( i );
 	}
 
 	for ( int i=2; i < 10; i+=2){
 	    t.add( i );
+	    x.add(i);
 	}
 
 	System.out.println(t);
-	x.remove(5);
+	x.remove(4);
 	System.out.println(x);
+	t.test();
+	x.inOrder();
     }
 }

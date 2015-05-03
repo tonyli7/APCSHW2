@@ -41,8 +41,8 @@ public class BSTreeNode<T extends Comparable> {
 	count++;
     }
 
-    public int compareTo(BSTreeNode<T> other){
-	return this.getData().compareTo(other.getData());
+    public int compareTo(T other){
+	return this.getData().compareTo(other);
     }
     
     public boolean hasLeft(){
