@@ -65,58 +65,33 @@ public class BSTree <T extends Comparable> {
       curr, if it exists.
       ====================*/
     private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
-	if (curr.isLeaf() && curr.getData()==c){
+	if (curr==null){
+	    return curr;
+	}
+	if (curr.isLeaf() && curr.compareTo(c)==0){
 	    return null;
 	}
-	if (curr.hasLeft() && (curr.getLeft().hasOnlyLeft() && curr.getLeft().getData()==c)){
-	    curr.setLeft(curr.getLeft().getLeft());
-	    return curr;
-	}
-	if (curr.hasRight() && (curr.getRight().hasOnlyRight() && curr.getRight().getData()==c)){
-	    curr.setRight(curr.getRight().getRight());
-	    return curr;
-	}if (curr.getLeft().getData()==c){
-	    
-	}else if(curr.compareTo(c)>0){
-	    return remove(curr.getLeft(),c);
+	if (curr.compareTo(c)>0){
+	    curr.setLeft(remove(curr.getLeft(),c));
 	}else if (curr.compareTo(c)<0){
-	    return remove(curr.getRight(),c);
+	    curr.setRight(remove(curr.getRight(),c));
+	}else{
+	    curr.setData(getClosest(curr.getRight()).getData());
+	    curr.setRight(remove(curr.getRight(),curr.getData()));
 	}
 	return curr;
     }
-
-    private BSTreeNode<T> getClosest(BSTreeNode<T> original){
-	BSTreeNode<T> leftClosest=original;
-	BSTreeNode<T> rightClosest=original;
-	if (original.hasLeft()){
-	    leftClosest=getClosestLeft( original.getLeft() );
+    private BSTreeNode<T> getClosest(BSTreeNode<T> curr){
+	if (curr==null){
+	    return null;
 	}
-	if (original.hasRight()){
-	    rightClosest=getClosestRight( original.getRight() );
-	}
-
-	Random rand=new Random();
-	int rng=rand.nextInt(1);
-	if (rng==1){
-	    return leftClosest;
-	}
-	return rightClosest;
-    }
-
-    private BSTreeNode<T> getClosestLeft(BSTreeNode<T> curr){
-	if (!curr.hasRight()){
-	    return curr;
-	}
-	return getClosestLeft(curr.getRight());
-    }
-
-    private BSTreeNode<T> getClosestRight(BSTreeNode<T> curr){
 	if (!curr.hasLeft()){
 	    return curr;
 	}
-	return getClosestLeft(curr.getLeft());
+	return getClosest(curr.getLeft());
     }
 
+   
     public void test(){
 	System.out.println(getClosest(root));
     }
@@ -277,7 +252,8 @@ public class BSTree <T extends Comparable> {
 	    t.add( i );
 	    x.add(i);
 	}
-
+	t.add(1);
+	//	t.remove(2);
 	System.out.println(t);
 	x.remove(4);
 	System.out.println(x);
