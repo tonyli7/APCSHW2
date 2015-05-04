@@ -71,17 +71,18 @@ public class BSTree <T extends Comparable> {
 	if (curr.isLeaf() && curr.compareTo(c)==0){
 	    return null;
 	}
-	if (curr.compareTo(c)>0){
+	if (curr.compareTo(c)>0){//go left
 	    curr.setLeft(remove(curr.getLeft(),c));
-	}else if (curr.compareTo(c)<0){
+	}else if (curr.compareTo(c)<0){//go right
 	    curr.setRight(remove(curr.getRight(),c));
 	}else{
+	    //when it's equal store the data of the closest element to the current
 	    curr.setData(getClosest(curr.getRight()).getData());
 	    curr.setRight(remove(curr.getRight(),curr.getData()));
 	}
 	return curr;
     }
-    private BSTreeNode<T> getClosest(BSTreeNode<T> curr){
+    private BSTreeNode<T> getClosest(BSTreeNode<T> curr){//gets closest from the right side
 	if (curr==null){
 	    return null;
 	}
@@ -259,5 +260,9 @@ public class BSTree <T extends Comparable> {
 	System.out.println(x);
 	t.test();
 	x.inOrder();
+    }
+
+    public String name(){
+	System.out.println("li.tony");
     }
 }
