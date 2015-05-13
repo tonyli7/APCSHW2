@@ -60,8 +60,19 @@ public class MyHeap{
 	return v1 < v2;
     }
 
-    // public void add(int){} 
-    //  public int peek() {}
+    public void add(int element){
+	add(1, element)
+    } 
+
+    public void add(int currIndex, int element){
+	if (currIndex*2>heap.get(0)){
+	    
+	}
+    }
+
+    public int peek() {
+	return root;
+    }
 
     public String toString(){
 	String str="[";
