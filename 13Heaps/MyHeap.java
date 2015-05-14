@@ -6,6 +6,7 @@ public class MyHeap{
 
     public MyHeap(){
 	heap=new ArrayList<Integer>(10);
+	/*
 	heap.add(7);
 	heap.add(20);
 	heap.add(10);
@@ -14,6 +15,15 @@ public class MyHeap{
 	heap.add(8);
 	heap.add(14);
 	heap.add(13);
+	*/
+	heap.add(7);
+	heap.add(1);
+	heap.add(4);
+	heap.add(5);
+	heap.add(6);
+	heap.add(8);
+	heap.add(7);
+	heap.add(9);
 	isMax=true;
     }
 
@@ -32,34 +42,51 @@ public class MyHeap{
 	    heap.set(1,heap.remove(2));
 	    return temp;
 	}else{
-	    return pushDown(1,heap.get(1));
+	    int temp=heap.get(1);
+	    heap.set(1,heap.get(size()));
+	    heap.remove(size());
+	    heap.set(0,size()-1);
+	    System.out.println(this);
+	    return pushDown(1,heap.get(1), temp);
 	}
     }
 
-    public int pushDown(int currIndex, int root){
-	if (currIndex*2>heap.size()){
-	    heap.remove(currIndex);
-	    heap.set(0,heap.get(0)-1);
-	    return root;
+    public int pushDown(int currIndex, int root, int removed){
+	if (currIndex*2>size()){
+	    return removed;
 	}
-	int left=currIndex*2;
-	if (compare(heap.get(left), heap.get(left+1))){
-	    heap.set(currIndex,heap.get(left));
-	    heap.set(left, root);
-	    return pushDown(left, root);
+	int left=heap.get(currIndex*2);
+
+	int temp;
+	if (compare(root,left)){
+	    heap.set(currIndex*2,root);
+	    heap.set(currIndex,left);
+	    return pushDown(currIndex*2,root,removed);
 	}
-	heap.set(currIndex,heap.get(left+1));
-	heap.set(left+1, root);
-	return pushDown(left+1, root);
+	if (currIndex*2+1>size()){
+	    return removed;
+	}
+	int right=heap.get(currIndex*2+1);
+	if (compare(root,right)){
+	  
+	    heap.set(currIndex*2+1,root);
+	    heap.set(currIndex,right);
+	    return pushDown(currIndex*2+1,root,removed);	
+	}
+	return removed;
     }
 
     public boolean compare(int v1, int v2){
 	if (isMax){
-	    return v1 > v2;
+	    return v1 < v2;
 	}
-	return v1 < v2;
+	return v1 > v2;
     }
 
+    public int size(){
+	return heap.get(0);
+    }
+    /*
     public void add(int element){
 	add(1, element)
     } 
@@ -69,7 +96,7 @@ public class MyHeap{
 	    
 	}
     }
-
+    */
     public int peek() {
 	return root;
     }
