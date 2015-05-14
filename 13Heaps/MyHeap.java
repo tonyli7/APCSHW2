@@ -6,7 +6,7 @@ public class MyHeap{
 
     public MyHeap(){
 	heap=new ArrayList<Integer>(10);
-	/*
+	
 	heap.add(7);
 	heap.add(20);
 	heap.add(10);
@@ -15,15 +15,8 @@ public class MyHeap{
 	heap.add(8);
 	heap.add(14);
 	heap.add(13);
-	*/
-	heap.add(7);
-	heap.add(1);
-	heap.add(4);
-	heap.add(5);
-	heap.add(6);
-	heap.add(8);
-	heap.add(7);
-	heap.add(9);
+	
+
 	isMax=true;
     }
 
@@ -46,7 +39,6 @@ public class MyHeap{
 	    heap.set(1,heap.get(size()));
 	    heap.remove(size());
 	    heap.set(0,size()-1);
-	    System.out.println(this);
 	    return pushDown(1,heap.get(1), temp);
 	}
     }
@@ -86,17 +78,27 @@ public class MyHeap{
     public int size(){
 	return heap.get(0);
     }
-    /*
+    
     public void add(int element){
-	add(1, element)
+	heap.add(element);
+	heap.set(0,size()+1);
+	add(size(), element);
     } 
 
     public void add(int currIndex, int element){
-	if (currIndex*2>heap.get(0)){
-	    
+	if (currIndex==1){
+	    return;
+	}
+	int parent=heap.get(currIndex/2);
+	if (compare(parent, element)){
+	    heap.set(currIndex/2,element);
+	    heap.set(currIndex,parent);
+	    add(currIndex/2,element);
+	}else{
+	    return;
 	}
     }
-    */
+    
     public int peek() {
 	return root;
     }
