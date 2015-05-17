@@ -10,14 +10,20 @@ public class RunningMedian{
     }
 
     public double getMedian(){
+	System.out.println(maxHeap);
+	System.out.println(minHeap);
+	System.out.println(totalsize);
+	System.out.println(maxHeap.peek());
+	System.out.println(minHeap.peek());
 	if (totalsize==0){
+	   
 	    throw new NoSuchElementException();
 	}
 	if (totalsize==1){
 	    return maxHeap.getRoot();
 	}
 	if (totalsize%2==0){
-	    return (maxHeap.getRoot()+minHeap.getRoot()/2.0);
+	    return ((maxHeap.getRoot()+minHeap.getRoot())/2.0);
 	}
 	if (maxHeap.size()>minHeap.size()){
 	    return maxHeap.getRoot();
@@ -28,6 +34,7 @@ public class RunningMedian{
     public void add(int value){
 	if (totalsize==0){
 	    maxHeap.add(value);
+	    totalsize++;
 	    return;
 	}else if (value > maxHeap.getRoot()){
 	    minHeap.add(value);

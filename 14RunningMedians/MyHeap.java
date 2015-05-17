@@ -6,6 +6,7 @@ public class MyHeap{
 
     public MyHeap(){
 	heap=new ArrayList<Integer>(10);
+	heap.add(0);
 	isMax=true;
     }
 
@@ -18,10 +19,13 @@ public class MyHeap{
 	if (heap.get(0)==0){
 	    throw new NoSuchElementException();
 	}else if(heap.get(0)==1){
+	    heap.set(0,0);
 	    return heap.remove(1);
 	}else if(heap.get(0)==2){
 	    int temp=heap.remove(1);
-	    heap.set(1,heap.remove(2));
+	    root=heap.get(1);
+	    heap.set(0,1);
+	    //    heap.set(1,heap.remove(2));
 	    return temp;
 	}else{
 	    int temp=heap.get(1);
@@ -32,28 +36,32 @@ public class MyHeap{
 	}
     }
 
-    public int pushDown(int currIndex, int root, int removed){
+    public int pushDown(int currIndex, int root1, int removed){
+	this.root=heap.get(1);
 	if (currIndex*2>size()){
 	    return removed;
 	}
 	int left=heap.get(currIndex*2);
 
 	int temp;
-	if (compare(root,left)){
-	    heap.set(currIndex*2,root);
+	if (compare(root1,left)){
+	    heap.set(currIndex*2,root1);
 	    heap.set(currIndex,left);
-	    return pushDown(currIndex*2,root,removed);
+	   
+	    return pushDown(currIndex*2,root1,removed);
 	}
+	this.root=heap.get(1);
 	if (currIndex*2+1>size()){
 	    return removed;
 	}
 	int right=heap.get(currIndex*2+1);
-	if (compare(root,right)){
+	if (compare(root1,right)){
 	  
-	    heap.set(currIndex*2+1,root);
+	    heap.set(currIndex*2+1,root1);
 	    heap.set(currIndex,right);
-	    return pushDown(currIndex*2+1,root,removed);	
+	    return pushDown(currIndex*2+1,root1,removed);	
 	}
+	this.root=heap.get(1);
 	return removed;
     }
 
@@ -72,12 +80,14 @@ public class MyHeap{
 	heap.add(element);
 	heap.set(0,size()+1);
 	add(size(), element);
+	root=heap.get(1);
     } 
 
     public void add(int currIndex, int element){
 	if (currIndex==1){
 	    return;
 	}
+
 	int parent=heap.get(currIndex/2);
 	if (compare(parent, element)){
 	    heap.set(currIndex/2,element);
@@ -118,7 +128,8 @@ public class MyHeap{
     
     public String toString(){
 	String str="[";
-	for (int i=1;i<heap.get(0)+1;i++){
+
+	for (int i=1;i<=heap.get(0);i++){
 	    str+=heap.get(i)+" ";
 	}
 	return str+"]"+"\n\n"+heap.get(0);
