@@ -159,4 +159,8 @@ public class MyHeap{
 	}
 	return tree;
     }
+
+    public String name(){
+	return "tony.li";
+    }
 }
