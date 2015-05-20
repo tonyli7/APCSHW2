@@ -184,7 +184,7 @@ public class Sorts{
 	    if (left>root){
 		a[currIndex*2+1]=root;
 		a[currIndex]=left;
-		pushDown(currIndex*2+1,left,a,index);
+		pushDown(currIndex*2+1,root,a,index);
 	    }
 	}else{
 	    int left=a[currIndex*2+1];
@@ -192,15 +192,14 @@ public class Sorts{
 	    if (left>root && left>right){
 		a[currIndex*2+1]=root;
 		a[currIndex]=left;
-		pushDown(currIndex*2+1,left,a,index);
+		pushDown(currIndex*2+1,root,a,index);
 	    } else if (right>root && right>left){
 		a[currIndex*2+2]=root;
 		a[currIndex]=right;
-		pushDown(currIndex*2+2,right,a,index);
+		pushDown(currIndex*2+2,root,a,index);
 	    }
 	}
-	System.out.println(toString(a));
-	System.out.print(currIndex);
+
     }
 
     public static String toString(int[]a){
